@@ -13,6 +13,7 @@ without worrying about low-level XML handling.
 from .dom import (CDATA_TAG, ElementDict, AttributeDescriptor)
 from .module import (Module, SafetyNetworkNumber)
 from .tag import Scope
+from .program import Program
 import io
 import re
 import xml.etree.ElementTree as ElementTree
@@ -46,7 +47,7 @@ class Project(object):
         self.controller = Controller(ctl_element, lang)
 
         progs = ctl_element.find('Programs')
-        self.programs = ElementDict(progs, 'Name', Scope, value_args=[lang])
+        self.programs = ElementDict(progs, 'Name', Program, value_args=[lang])
 
         mods = ctl_element.find('Modules')
         self.modules = ElementDict(mods, 'Name', Module)
