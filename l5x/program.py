@@ -5,28 +5,7 @@ Module to implement the Program class, which represents a single program within 
 '''
 from .tag import Scope
 from .dom import ElementDict
-
-class Rung:
-    def __init__(self, element, lang):
-        self.element = element
-        self.lang = lang
-
-        text_element = self.element.find("Text")
-        text_cdata_element = text_element.find("CDATAContent") if text_element is not None else None
-
-        comment_element = self.element.find("Comment")
-        comment_cdata_element = comment_element.find("CDATAContent") if comment_element is not None else None
-
-
-        self.text = text_cdata_element.text.strip() if text_cdata_element is not None else ""
-        self.comment = comment_cdata_element.text.strip() if comment_cdata_element is not None else ""
-
-        '''
-        Could technically use this to get the text or comment, but we're currently using the above code
-        so that it's cleaner when the text or comment is not present. Also allows access the elements
-        directly if needed.
-        self.text = self.element.find("Text").find("CDATAContent").text.strip() if self.element.find("Text") is not None else ""
-    '''
+from l5x.rung import Rung
         
 
 
