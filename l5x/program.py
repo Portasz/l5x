@@ -6,6 +6,7 @@ Module to implement the Program class, which represents a single program within 
 from .tag import Scope
 from .dom import ElementDict
 from l5x.rung import Rung
+from .ladder import Ladder
         
 
 
@@ -16,10 +17,11 @@ class Routine:
         self.lang = lang
 
         #currently, the only supported logic element is ladder logic, so RLLContent.
-        #this will be expanded in the future to support other logic types
-        logic_list = element.find("RLLContent").findall("Rung")
-        self.rungs = [Rung(rung_element, lang) for rung_element in logic_list]
-
+        #this can be expanded in the future to support other logic types
+        self.rll_content_element = element.find("RLLContent")
+        logic_list = self.rll_content_element.findall("Rung")
+        rung_list = [Rung(rung_element, lang) for rung_element in logic_list]
+        self.ladder = Ladder(element=self.rll_content_element, rungs=rung_list)
 
 class Program(Scope):
     def __init__(self, element, lang):

@@ -1,77 +1,97 @@
+import xml.etree.ElementTree as ElementTree
+from dom import CDATA_TAG
+
 '''
 Module defining the Rung class which stores the logic and comments for a rung in a program.
-
-
 
 '''
 
 class Rung:
-    def __init__(self, element, lang):
-        self.element = element
+    def __init__(self, element, lang=None):
         self.lang = lang
+        if element is None:
+            #Number and Type attributes must be set elsewhere   
+            dict = {"Number": "",
+                    "Type": ""
+                    }
+            self.element=ElementTree.Element("Rung", attrib=dict)
+        else:
+            self.element=element
 
-        text_element = self.element.find("Text")
-        self.text_cdata_element = text_element.find("CDATAContent") if text_element is not None else None
+    @property
+    def type(self):
+        return self.element.attrib["Type"]
 
-        comment_element = self.element.find("Comment")
-        comment_cdata_element = comment_element.find("CDATAContent") if comment_element is not None else None
-
-
-        #self.text = self.text_cdata_element.text if self.text_cdata_element is not None else ""
-        self.comment = comment_cdata_element.text if comment_cdata_element is not None else ""
-
-        '''
-        Could technically use this to get the text or comment, but we're currently using the above code
-        so that it's cleaner when the text or comment is not present. Also allows access to the elements
-        directly if needed.
-        self.text = self.element.find("Text").find("CDATAContent").text.strip() if self.element.find("Text") is not None else ""
-    '''
+    @type.setter
+    def type(self, value):
+        if not isinstance(value, str):
+            raise TypeError("Type must be a string.")
+        self.element.attrib["Type"] = value  
+    
+    @property
+    def number(self):
+        return self.element.attrib["Number"]
+    
+    @number.setter
+    def number(self, value):
+        if not isinstance(value, int):
+            raise TypeError("Number must be an integer")
         
+        self.element.attrib["Number"] = str(value)
+
     @property
     def text(self):
-        return self.element.find("Text").find("CDATAContent").text
-        #return self.text
-
-    def func(self, value):
-        self.element.find("Text").find("CDATAContent").text = value
+        text = self._get_cdata_text("Text")
+        return text
 
     @text.setter
     def text(self, value):
         """Set the rung text."""
+        self._set_cdata_text("Text", value)
+
+    @property
+    def comment(self):
+        comment = self._get_cdata_text("Comment")
+        return comment
+
+    @comment.setter
+    def comment(self, value):
+        """Set the rung comment."""
+        self._set_cdata_text("Comment", value)
+
+
+    def _set_cdata_text(self, parent_tag: str, value: str):
         if not isinstance(value, str):
-            raise TypeError("Text must be a string.")
-        
-        print(f"Setting text to: {value}")
-        text_element = self.element.find("Text")
-        print(f"Text element: {text_element}")
-        
-        if text_element is not None:
-            cdata_element = text_element.find("CDATAContent")
-            print(f"CDATA element: {cdata_element}")
-            
-            if cdata_element is not None:
-                cdata_element.text = value
-                print(f"Successfully set text to: {cdata_element.text}")
-            else:
-                print("CDATAContent element is None!")
-        else:
-            print("Text element is None!")
+            raise TypeError("Value must be a string.")
 
+        # Find or create the parent element
+        element = self.element.find(parent_tag)
+        if element is None:
+            element = ElementTree.SubElement(self.element, parent_tag)
 
-
-
-'''    @text.setter
-    def text(self, value):
-        """Set the rung text."""
-        if not isinstance(value, str):
-            raise TypeError("Text must be a string.")
-        
-        text_element = self.element.find("Text")
-        if text_element is None:
-            raise ValueError("Text element not found in rung")
-        
-        cdata_element = text_element.find("CDATAContent")
+        # Find or create the CDATAContent child
+        cdata_element = element.find(CDATA_TAG)
         if cdata_element is None:
-            raise ValueError("CDATAContent element not found in Text element")
-        
-        cdata_element.text = value'''
+            cdata_element = ElementTree.SubElement(element, CDATA_TAG)
+
+        # Set the text
+        cdata_element.text = value
+
+    def _get_cdata_text(self, parent_tag: str):
+        # Ensure self.element is not None
+        if self.element is None:
+            return None
+
+        element = self.element.find(parent_tag)
+        if element is None:
+            return None
+
+        cdata_elem = element.find(CDATA_TAG)
+        if cdata_elem is None:
+            return None
+
+        return cdata_elem.text
+            
+                
+
+
