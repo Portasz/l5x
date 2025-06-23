@@ -1,6 +1,6 @@
-from rung import Rung
+from .rung import Rung
 import xml.etree.ElementTree as ElementTree
-from dom import CDATA_TAG
+from .dom import CDATA_TAG
 
 class RungFactory:
     """Factory for creating properly configured Rung objects."""

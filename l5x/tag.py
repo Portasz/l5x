@@ -105,7 +105,8 @@ class Tag(object):
         This is always the sole element contained with the decorated Data
         element.
         """
-        data = self.element.find("Data[@Format='Decorated']/*")
+       #data = self.element.find("Data[@Format='Decorated']/*") #trying a different data format to see if it finds the subelement
+        data = self.element.find("Data")
 
         if data is None:
             name = self.element.attrib['Name']
