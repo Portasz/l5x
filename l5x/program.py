@@ -3,10 +3,10 @@
 Module to implement the Program class, which represents a single program within an L5X project.
 
 '''
-from .tag import Scope
-from .dom import ElementDict
+from l5x.tag import Scope
+from l5x.dom import ElementDict
 from l5x.rung import Rung
-from .ladder import Ladder
+from l5x.ladder import Ladder
         
 
 

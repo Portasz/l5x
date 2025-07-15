@@ -1,5 +1,5 @@
 import xml.etree.ElementTree as ElementTree
-from .dom import CDATA_TAG
+from l5x.dom import CDATA_TAG
 
 '''
 Module defining the Rung class which stores the logic and comments for a rung in a program.

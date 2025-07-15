@@ -10,10 +10,10 @@ __get__() method. In this way the application can process L5X projects
 without worrying about low-level XML handling.
 """
 
-from .dom import (CDATA_TAG, ElementDict, AttributeDescriptor)
-from .module import (Module, SafetyNetworkNumber)
-from .tag import Scope
-from .program import Program
+from l5x.dom import (CDATA_TAG, ElementDict, AttributeDescriptor)
+from l5x.module import (Module, SafetyNetworkNumber)
+from l5x.tag import Scope
+from l5x.program import Program
 import io
 import re
 import xml.etree.ElementTree as ElementTree

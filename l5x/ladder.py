@@ -1,5 +1,5 @@
-from .rung import Rung
-from .rung_factory import RungFactory
+from l5x.rung import Rung
+from l5x.rung_factory import RungFactory
 
 
 

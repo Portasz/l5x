@@ -2,7 +2,7 @@
 Objects for accessing a set of I/O modules.
 """
 
-from .dom import (ElementDict, AttributeDescriptor)
+from l5x.dom import (ElementDict, AttributeDescriptor)
 
 
 class SafetyNetworkNumber(object):
