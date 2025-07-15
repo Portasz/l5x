@@ -20,6 +20,8 @@ class Routine:
         #this can be expanded in the future to support other logic types
         self.rll_content_element = element.find("RLLContent")
         logic_list = self.rll_content_element.findall("Rung")
+        if logic_list is None:
+            logic_list = []
         rung_list = [Rung(rung_element, lang) for rung_element in logic_list]
         self.ladder = Ladder(element=self.rll_content_element, rungs=rung_list)
 
